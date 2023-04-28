@@ -19,9 +19,13 @@ String password = request.getParameter("password");
 ApplicationDB db = new ApplicationDB();	
 Connection con = db.getConnection();
 Statement st = con.createStatement();
-ResultSet rs = st.executeQuery("select username,password, userType from end_user where username='" + username + "' and password='" + password + "';");
-
+PreparedStatement ps = con.prepareStatement("SELECT userID, username, password, userType FROM end_user WHERE username=? AND password=?");
+ps.setString(1, username);
+ps.setString(2, password);
+ResultSet rs = ps.executeQuery();
 if(rs.next()){
+	int userID = rs.getInt("userID");
+ 	session.setAttribute("userID", userID);
 	session.setAttribute("username", username);
 	String userType = rs.getString("userType");
 	if (userType.equals("user")){
