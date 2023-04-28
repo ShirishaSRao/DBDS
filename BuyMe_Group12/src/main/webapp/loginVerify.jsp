@@ -11,32 +11,31 @@
 </head>
 <body>
 <%
-String userid = request.getParameter("username");
+String username = request.getParameter("username");
 //HttpSession session = request.getSession();
-session.setAttribute("username", userid);
+session.setAttribute("username", username);
 String password = request.getParameter("password");
 //Class.forName("com.mysql.jdbc.Driver");
 ApplicationDB db = new ApplicationDB();	
 Connection con = db.getConnection();
 Statement st = con.createStatement();
-ResultSet rs = st.executeQuery("select userID,password from end_user where userID='" + userid + "' and password='" + password + "';");
+ResultSet rs = st.executeQuery("select userID,username,password from end_user where username='" + username + "' and password='" + password + "';");
 
 if(rs.next()){
-	session.setAttribute("username", userid);
+	int userID = rs.getInt("userID");
+	session.setAttribute("userID", userID);
 	%>
 		<jsp:forward page="home.jsp">
-		<jsp:param name="username" value="<%=userid%>"/>
+		<jsp:param name="username" value="<%=userID%>"/>
 		</jsp:forward>
 	<%
-	 }else{
-		 %>
-			<jsp:forward page="login.jsp">
-			<jsp:param name="login_error" value="Incorrect username or password."/> 
-			</jsp:forward>
-			<%
+	 } else{
+	%>
+		<jsp:forward page="login.jsp">
+		<jsp:param name="login_error" value="Incorrect username or password."/> 
+		</jsp:forward>
+	<%
 	 }
-
-	
 %>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>BuyMe</title>
 </head>
 <body>
 	<div align="center">
@@ -12,13 +12,11 @@
 				<table>
 					<tr> <td> User Name: </td><td> <input type="text" name="username"></td></tr>
 					<tr> <td> Password: </td><td> <input type="password" name="password"></td></tr> 
-					<tr> <td> <input type="submit" value="Log in"></td></tr>
+					<tr> <td> <input type="submit" value="Log in"></td></tr></table>
 					<% if (request.getParameter("login_error") != null) { %>
-			<tr>
-				<td><p style="text-align: center; color: red"><%=request.getParameter("login_error")%></p></td>
-			</tr>
+				<p style="text-align: center; color: red"><%=request.getParameter("login_error")%></p>
 		<% } %>
-				</table>
+				
 			</form> 
 			 
 	</div>	
