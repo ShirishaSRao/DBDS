@@ -52,7 +52,7 @@
 		ResultSet rs2 = stmt.executeQuery(getSellerID);
 		if (!rs2.next()) {
 			String createSeller = "INSERT INTO SELLER(sellerID, items_sold) VALUES(" + userID + ", 0);";
-			//stmt.executeUpdate(createSeller);
+			stmt.executeUpdate(createSeller);
 		}
 		
 		//insertItem = "INSERT INTO ITEM(sellerID, sub_categoryID, item_name, item_condition, minimum_price)"
