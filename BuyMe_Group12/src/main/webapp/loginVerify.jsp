@@ -19,23 +19,40 @@ String password = request.getParameter("password");
 ApplicationDB db = new ApplicationDB();	
 Connection con = db.getConnection();
 Statement st = con.createStatement();
-ResultSet rs = st.executeQuery("select userID,username,password from end_user where username='" + username + "' and password='" + password + "';");
+ResultSet rs = st.executeQuery("select username,password, userType from end_user where username='" + username + "' and password='" + password + "';");
 
 if(rs.next()){
-	int userID = rs.getInt("userID");
-	session.setAttribute("userID", userID);
-	%>
-		<jsp:forward page="home.jsp">
-		<jsp:param name="username" value="<%=userID%>"/>
-		</jsp:forward>
-	<%
-	 } else{
-	%>
-		<jsp:forward page="login.jsp">
-		<jsp:param name="login_error" value="Incorrect username or password."/> 
-		</jsp:forward>
-	<%
+	session.setAttribute("username", username);
+	String userType = rs.getString("userType");
+	if (userType.equals("user")){
+		%>
+			<jsp:forward page="home.jsp">
+			<jsp:param name="username" value="<%=username%>"/>
+			</jsp:forward>
+		<%
+		}else if(userType.equals("admin")){
+			%>
+			<jsp:forward page="adminHome.jsp">
+			<jsp:param name="username" value="<%=username%>"/>
+			</jsp:forward>
+		<%
+		}
+		else if(userType.equals("customerRep")){
+			%>
+			<jsp:forward page="customerRepHome.jsp">
+			<jsp:param name="username" value="<%=username%>"/>
+			</jsp:forward>
+		<%
+		}
+	}else{
+		 %>
+			<jsp:forward page="login.jsp">
+			<jsp:param name="login_error" value="Incorrect username or password."/> 
+			</jsp:forward>
+			<%
 	 }
+
+	
 %>
 </body>
 </html>
