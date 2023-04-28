@@ -95,13 +95,22 @@
 		pstmt.setFloat(3, minPrice);
 		pstmt.setFloat(4, increment);
 		pstmt.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-		out.println("closing date time before: " + closingDateTime);
+		//out.println("closing date time before: " + closingDateTime);
 		closingDateTime = closingDateTime.replace("T", " ");
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-		out.println("closing date time: " + closingDateTime);
-		Date date = (Date)formatter.parse(closingDateTime);
+		//DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		
-		pstmt.setDate(6, new java.sql.Date(date.getTime()));
+		
+
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		java.util.Date date = (java.util.Date)formatter.parse(closingDateTime); 
+		java.sql.Timestamp sqlDate = new java.sql.Timestamp(date.getTime());
+		
+		/* out.println("closing dateeeee: " + date.getTime());
+		out.println("sql date: " + sqlDate); */
+
+		//Date date = (Date)formatter.parse(closingDateTime);
+		
+		pstmt.setTimestamp(6, sqlDate);
 		pstmt.executeUpdate();
 		// TO DO: update items_sold in seller table 
 		
